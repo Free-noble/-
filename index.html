@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>四六级急救闯关 | 考前5天自测提分</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background-color: #f6f8fb;
+            padding: 20px 16px 40px;
+        }
+
+        /* 主容器 */
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 顶部总分卡片 */
+        .score-header {
+            background: white;
+            border-radius: 28px;
+            padding: 20px 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03), 0 1px 2px rgba(0, 0, 0, 0.05);
+            border: 1px solid #eef2f6;
+        }
+
+        .score-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .score-item {
+            flex: 1;
+            min-width: 100px;
+            text-align: center;
+            background: #f8fafd;
+            border-radius: 20px;
+            padding: 12px 8px;
+        }
+
+        .score-label {
+            font-size: 14px;
+            color: #5b6e8c;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .score-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1a2c3e;
+            line-height: 1.2;
+        }
+
+        .score-number small {
+            font-size: 14px;
+            font-weight: 500;
+            color: #7e8b9f;
+        }
+
+        .primary-btn {
+            background-color: #246bfe;
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .primary-btn:hover {
+            background-color: #0e5ae6;
+            transform: translateY(-1px);
+        }
+
+        /* 粘性导航栏 */
+        .sticky-nav {
+            position: sticky;
+            top: 12px;
+            z-index: 10;
+            background: white;
+            backdrop-filter: blur(8px);
+            background: rgba(255, 255, 255, 0.94);
+            border-radius: 60px;
+            padding: 8px 12px;
+            margin-bottom: 28px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid #eef2f8;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #2c3e66;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover {
+            background-color: #eef3fc;
+            color: #246bfe;
+        }
+
+        /* 模块卡片 */
+        .module-card {
+            background: white;
+            border-radius: 28px;
+            margin-bottom: 32px;
+            padding: 20px 20px 24px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.02), 0 1px 3px rgba(0, 0, 0, 0.05);
+            border: 1px solid #eef2f6;
+            transition: all 0.1s;
+        }
+
+        .module-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            border-left: 5px solid #246bfe;
+            padding-left: 16px;
+        }
+
+        .module-title h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .module-score {
+            font-size: 15px;
+            background: #f1f5f9;
+            padding: 5px 12px;
+            border-radius: 30px;
+            font-weight: 600;
+            color: #246bfe;
+        }
+
+        .question-item {
+            margin-bottom: 28px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #edf2f7;
+        }
+
+        .question-text {
+            font-weight: 600;
+            font-size: 1rem;
+            color: #0f172a;
+            margin-bottom: 14px;
+            line-height: 1.4;
+        }
+
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .option {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 60px;
+            padding: 8px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            color: #1e2a3e;
+            font-weight: 500;
+        }
+
+        .option:hover {
+            background-color: #eef2ff;
+            transform: translateY(-1px);
+            border-color: #b9d0f8;
+        }
+
+        /* 禁用状态 */
+        .option.disabled-opt {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .opt-correct {
+            background-color: #15935f !important;
+            border-color: #15935f !important;
+            color: white !important;
+        }
+
+        .opt-wrong {
+            background-color: #d64545 !important;
+            border-color: #d64545 !important;
+            color: white !important;
+        }
+
+        .opt-default-disabled {
+            background-color: #f1f3f7;
+            border-color: #e2e8f0;
+            color: #94a3b8;
+        }
+
+        .explanation {
+            font-size: 13px;
+            background: #fef9e3;
+            padding: 8px 12px;
+            border-radius: 16px;
+            margin-top: 12px;
+            color: #8a6e2d;
+            border-left: 3px solid #f5b042;
+        }
+
+        /* 错题区域 + 复习建议 */
+        .review-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            margin-top: 20px;
+        }
+
+        .wrong-answers {
+            flex: 2;
+            background: white;
+            border-radius: 28px;
+            padding: 20px 24px;
+            border: 1px solid #eef2f6;
+        }
+
+        .advice-card {
+            flex: 1.2;
+            background: #eef3fc;
+            border-radius: 28px;
+            padding: 20px 24px;
+            border-left: 5px solid #246bfe;
+        }
+
+        .wrong-item {
+            background: #fff6f0;
+            margin-bottom: 16px;
+            padding: 14px;
+            border-radius: 20px;
+            border-left: 4px solid #d64545;
+        }
+
+        .wrong-question {
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .wrong-detail {
+            font-size: 13px;
+            color: #4b5563;
+        }
+
+        .reset-btn {
+            background: none;
+            border: 1px solid #cbd5e1;
+            margin-left: 12px;
+        }
+
+        .footer-tip {
+            text-align: center;
+            margin-top: 36px;
+            font-size: 13px;
+            color: #7c8ba0;
+        }
+
+        @media (max-width: 700px) {
+            body {
+                padding: 16px 12px;
+            }
+            .options {
+                flex-direction: column;
+            }
+            .option {
+                text-align: center;
+            }
+            .score-grid {
+                flex-direction: column;
+            }
+            .review-section {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <!-- 总分卡片 -->
+    <div class="score-header">
+        <div class="score-grid">
+            <div class="score-item"><div class="score-label">总分</div><div class="score-number" id="totalScoreSpan">0</div></div>
+            <div class="score-item"><div class="score-label">正确率</div><div class="score-number" id="accuracySpan">0%</div></div>
+            <div class="score-item"><div class="score-label">错题数</div><div class="score-number" id="wrongCountSpan">0</div></div>
+            <div class="score-item"><div class="score-label">剩余题数</div><div class="score-number" id="remainingSpan">0</div></div>
+            <div><button class="primary-btn reset-btn" id="resetAllBtn">⟳ 一键重置</button></div>
+        </div>
+    </div>
+
+    <!-- 粘性导航栏 -->
+    <div class="sticky-nav">
+        <button class="nav-btn" data-module="module-listening">🎧 听力信号词</button>
+        <button class="nav-btn" data-module="module-reading">📖 阅读同义替换</button>
+        <button class="nav-btn" data-module="module-writing">✍️ 写作高频话题</button>
+        <button class="nav-btn" data-module="module-translation">🌏 翻译表达填空</button>
+        <button class="nav-btn" data-module="wrong-area">📘 错题本</button>
+    </div>
+
+    <!-- 听力模块 5题 -->
+    <div id="module-listening" class="module-card">
+        <div class="module-title"><h2>🎧 听力救命词自测</h2><span class="module-score" id="listeningScore">0/5</span></div>
+        <div id="listening-questions"></div>
+    </div>
+
+    <!-- 阅读模块 5题 -->
+    <div id="module-reading" class="module-card">
+        <div class="module-title"><h2>📖 阅读同义替换自测</h2><span class="module-score" id="readingScore">0/5</span></div>
+        <div id="reading-questions"></div>
+    </div>
+
+    <!-- 写作模块 5题 -->
+    <div id="module-writing" class="module-card">
+        <div class="module-title"><h2>✍️ 写作高频话题自测</h2><span class="module-score" id="writingScore">0/5</span></div>
+        <div id="writing-questions"></div>
+    </div>
+
+    <!-- 翻译模块 10题（重点强化） -->
+    <div id="module-translation" class="module-card">
+        <div class="module-title"><h2>🌏 翻译固定词组填空</h2><span class="module-score" id="translationScore">0/10</span></div>
+        <div id="translation-questions"></div>
+    </div>
+
+    <!-- 错题回看区 + 复习建议 -->
+    <div class="review-section">
+        <div class="wrong-answers" id="wrongAnswersArea">
+            <h3 style="margin-bottom: 16px; font-size: 1.3rem;">📌 错题本</h3>
+            <div id="wrongListContainer">暂无错题，完美通关！</div>
+        </div>
+        <div class="advice-card" id="adviceCard">
+            <h3 style="margin-bottom: 16px;">📚 智能复习建议</h3>
+            <div id="adviceText">完成所有题目后，将根据各模块正确率生成专属建议。</div>
+        </div>
+    </div>
+    <div class="footer-tip">✅ 基于5年真题高频考点，点击选项自动判分&锁题，错题自动收录</div>
+</div>
+
+<script>
+    // ----------------------------- 题库数据（严格基于急救清单高频考点）--------------------------------
+    // 听力5题：考听力信号词及转折词原则
+    const listeningBank = [
+        { text: "听力中，当听到哪个信号词时，答案90%出现在其后？", options: ["however", "for example", "in addition", "similarly"], correct: "however", explanation: "转折后必出题，but/however/yet是四六级听力核心信号词。" },
+        { text: "以下哪个属于“视听一致”的核心用法？", options: ["完全相同的原词必定是答案", "听到什么选什么，重合度最高选项正确", "听不懂选最长选项", "忽略关键词只凭感觉"], correct: "听到什么选什么，重合度最高选项正确", explanation: "视听一致：听到的单词与选项重合度最高的90%正确。" },
+        { text: "听力长对话中，以下哪个选项大概率是正确答案？", options: ["含有绝对词never/all", "委婉推测may/might/likely", "和原文一字不差", "无关主旨的细节"], correct: "委婉推测may/might/likely", explanation: "听力蒙题核心：委婉词优先，绝对词多错。" },
+        { text: "篇章听力中，主旨题最可能出现在？", options: ["第二段中间", "任意一句", "第一句或最后一句", "对话提问之后"], correct: "第一句或最后一句", explanation: "首尾句原则，文章开头结尾对应主旨答案。" },
+        { text: "听力中听到问句，考点通常在？", options: ["问句之前的内容", "问句之后的回答", "背景音乐", "重复的单词"], correct: "问句之后的回答", explanation: "问答出题点，回答内容必为答案定位句。" }
+    ];
+    // 阅读同义替换5题
+    const readingBank = [
+        { text: "原文出现'important', 选项中哪个词是正确答案的高频同义替换？", options: ["trivial", "vital", "unimportant", "minor"], correct: "vital", explanation: "important = crucial/vital/essential 必考替换。" },
+        { text: "以下哪个选项属于“因果”关系的正确替换？", options: ["lead to = stem from", "cause = result in", "contribute to = reduce", "affect = ignore"], correct: "cause = result in", explanation: "cause = lead to / result in 为高频因果替换。" },
+        { text: "态度题中，科普类文章正确态度多为？", options: ["消极讽刺", "客观积极中立", "怀疑批判", "强烈反对"], correct: "客观积极中立", explanation: "社会科普类阅读态度多为客观、积极。" },
+        { text: "阅读细节题，答案通常定位在？", options: ["文章首段", "定位词原句前后一句", "尾段总结", "任意段落"], correct: "定位词原句前后一句", explanation: "细节题答案就在关键词定位句的前后一句。" },
+        { text: "以下哪个绝对词选项在阅读中大概率错？", options: ["may be", "possibly", "always", "sometimes"], correct: "always", explanation: "绝对词must/always/all通常错，委婉词优先。" }
+    ];
+    // 写作高频5题 (考查万能核心句型/主题搭配)
+    const writingBank = [
+        { text: "青年成长话题，哪个表达符合‘个人素养’高频主题词？", options: ["consumer behavior", "perseverance & responsibility", "digital economy", "greenhouse gas"], correct: "perseverance & responsibility", explanation: "毅力与责任感为青年成长TOP考点词。" },
+        { text: "科技发展类写作，最佳万能开头句是？", options: ["The environment is important.", "The rapid development of technology has greatly changed people's life.", "I like reading.", "We should save water."], correct: "The rapid development of technology has greatly changed people's life.", explanation: "题干来自急救清单话题2万能句，直接高分。" },
+        { text: "传统文化写作，哪个固定搭配必考？", options: ["cultural heritage & carry forward", "fast fashion", "artificial intelligence", "low-carbon life"], correct: "cultural heritage & carry forward", explanation: "传统文化+传承弘扬是翻译/写作压轴词汇。" },
+        { text: "环境保护万能句强调可持续性，正确的是？", options: ["Protecting the environment is beneficial to human survival.", "Plastic is cheap.", "Cities are crowded.", "Tourism grows fast."], correct: "Protecting the environment is beneficial to human survival.", explanation: "急救清单原句：保护环境有益于人类生存和社会可持续发展。" },
+        { text: "社会热点中关于‘持续学习’的正确表达？", options: ["stop learning", "lifelong learning is essential", "ignore pressure", "drop out school"], correct: "lifelong learning is essential", explanation: "终身学习为竞争社会高频论述点。" }
+    ];
+    // 翻译填空题10道（考察最高频固定词组，近5年真题高频）
+    const translationBank = [
+        { text: "中国拥有悠久的历史和灿烂的______。", options: ["traditional culture", "modern city", "digital world", "sports event"], correct: "traditional culture", explanation: "传统文化文化遗产必考搭配。" },
+        { text: "年轻人应勇于挑战自我，培养______。", options: ["bad habits", "independent thinking", "lazy attitude", "waste time"], correct: "independent thinking", explanation: "独立思考/创新为青年话题核心词。" },
+        { text: "科技发展带来了巨大的______到日常生活中。", options: ["difficulty", "convenience", "pollution", "cost"], correct: "convenience", explanation: "convenient and efficient高频词。" },
+        { text: "我们应该传承和______传统文化。", options: ["destroy", "promote/ carry forward", "ignore", "forget"], correct: "promote/ carry forward", explanation: "inherit and promote 压轴搭配。" },
+        { text: "低碳生活和______发展是环保主题。", options: ["sustainable", "rapid", "unstable", "slow"], correct: "sustainable", explanation: "sustainable development 必考词组。" },
+        { text: "面对竞争压力，人们需要保持______心态。", options: ["negative", "positive", "angry", "tired"], correct: "positive", explanation: "积极心态与身心健康高频。" },
+        { text: "互联网、智能手机等______产品融入生活。", options: ["digital", "analog", "mechanical", "rural"], correct: "digital", explanation: "digital technology数字科技反复考。" },
+        { text: "越来越多年轻人通过持续学习提升就业______。", options: ["competitiveness", "leisure", "expense", "burden"], correct: "competitiveness", explanation: "就业竞争力—高频翻译考点。" },
+        { text: "全民积极参与环保行动，______持续改善。", options: ["ecological environment", "economic gap", "traffic jam", "population"], correct: "ecological environment", explanation: "生态环境改善必考翻译表达。" },
+        { text: "文化自信与文化______是我们的责任。", options: ["heritage", "loss", "decline", "crisis"], correct: "heritage", explanation: "cultural heritage文化遗产。" }
+    ];
+
+    // 合并所有题目, 为每个模块生成id映射
+    let allQuestions = [
+        ...listeningBank.map((q, idx) => ({ ...q, module: 'listening', idx, id: `listening_${idx}` })),
+        ...readingBank.map((q, idx) => ({ ...q, module: 'reading', idx, id: `reading_${idx}` })),
+        ...writingBank.map((q, idx) => ({ ...q, module: 'writing', idx, id: `writing_${idx}` })),
+        ...translationBank.map((q, idx) => ({ ...q, module: 'translation', idx, id: `translation_${idx}` }))
+    ];
+
+    // 记录答题状态: { [questionId]: { selected: string, isCorrect: boolean, locked: boolean } }
+    let answerState = {};
+    // 初始化状态
+    function initState() {
+        const newState = {};
+        allQuestions.forEach(q => {
+            newState[q.id] = { selected: null, isCorrect: false, locked: false };
+        });
+        return newState;
+    }
+    let userAnswers = initState();
+
+    // 辅助更新所有UI
+    function renderAll() {
+        renderModule('listening', listeningBank, 'listening-questions');
+        renderModule('reading', readingBank, 'reading-questions');
+        renderModule('writing', writingBank, 'writing-questions');
+        renderModule('translation', translationBank, 'translation-questions');
+        updateScoreStats();
+        renderWrongList();
+        renderAdvice();
+    }
+
+    // 渲染一个模块
+    function renderModule(moduleName, bank, containerId) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        let html = '';
+        bank.forEach((item, idx) => {
+            const qid = `${moduleName}_${idx}`;
+            const state = userAnswers[qid] || { selected: null, locked: false, isCorrect: false };
+            const locked = state.locked;
+            const selectedVal = state.selected;
+            const isCurrCorrect = state.isCorrect;
+
+            let optionsHtml = '';
+            item.options.forEach(opt => {
+                let additionalClass = '';
+                if (locked) {
+                    additionalClass = 'disabled-opt';
+                    if (opt === item.correct) additionalClass += ' opt-correct';
+                    else if (opt === selectedVal && opt !== item.correct) additionalClass += ' opt-wrong';
+                    else additionalClass += ' opt-default-disabled';
+                }
+                optionsHtml += `<div class="option ${additionalClass}" data-qid="${qid}" data-opt="${opt.replace(/"/g, '&quot;')}">${opt}</div>`;
+            });
+            let explanationHtml = '';
+            if (locked) {
+                const correctFlagText = isCurrCorrect ? '✓ 回答正确' : '✗ 回答错误';
+                explanationHtml = `<div class="explanation">${correctFlagText} 正确答案：${item.correct}<br>📖 解析：${item.explanation}</div>`;
+            }
+            html += `<div class="question-item">
+                        <div class="question-text">${idx+1}. ${item.text}</div>
+                        <div class="options" data-qid="${qid}">${optionsHtml}</div>
+                        ${explanationHtml}
+                    </div>`;
+        });
+        container.innerHTML = html;
+        // 绑定事件 (动态)
+        const allOpts = container.querySelectorAll('.option');
+        allOpts.forEach(opt => {
+            if (opt.classList.contains('disabled-opt')) return;
+            opt.addEventListener('click', (e) => {
+                const qid = opt.getAttribute('data-qid');
+                const selectedAnswer = opt.getAttribute('data-opt');
+                if (userAnswers[qid] && userAnswers[qid].locked) return;
+                // 找到题目对象
+                const questionObj = allQuestions.find(q => q.id === qid);
+                if (!questionObj) return;
+                const isCorrect = (selectedAnswer === questionObj.correct);
+                // 更新状态
+                userAnswers[qid] = {
+                    selected: selectedAnswer,
+                    isCorrect: isCorrect,
+                    locked: true
+                };
+                // 重新渲染整个模块（保持数据驱动）
+                renderAll();
+            });
+        });
+    }
+
+    // 更新总分/正确率/剩余题数/各模块分数
+    function updateScoreStats() {
+        let totalAnswered = 0;
+        let totalCorrect = 0;
+        const totalQuestions = allQuestions.length;
+
+        allQuestions.forEach(q => {
+            const state = userAnswers[q.id];
+            if (state && state.locked) {
+                totalAnswered++;
+                if (state.isCorrect) totalCorrect++;
+            }
+        });
+        const totalScore = totalCorrect; // 每题1分
+        const accuracy = totalAnswered === 0 ? 0 : Math.round((totalCorrect / totalAnswered) * 100);
+        const wrongCount = totalAnswered - totalCorrect;
+        const remaining = totalQuestions - totalAnswered;
+
+        document.getElementById('totalScoreSpan').innerText = totalScore;
+        document.getElementById('accuracySpan').innerText = accuracy + '%';
+        document.getElementById('wrongCountSpan').innerText = wrongCount;
+        document.getElementById('remainingSpan').innerText = remaining;
+
+        // 各模块计分
+        const modules = ['listening', 'reading', 'writing', 'translation'];
+        modules.forEach(mod => {
+            let modQuestions = allQuestions.filter(q => q.module === mod);
+            let correctCount = 0;
+            let totalMod = modQuestions.length;
+            modQuestions.forEach(q => {
+                if (userAnswers[q.id] && userAnswers[q.id].locked && userAnswers[q.id].isCorrect) correctCount++;
+            });
+            const scoreSpan = document.getElementById(`${mod}Score`);
+            if (scoreSpan) scoreSpan.innerText = `${correctCount}/${totalMod}`;
+        });
+    }
+
+    // 错题本渲染
+    function renderWrongList() {
+        const wrongList = allQuestions.filter(q => {
+            const state = userAnswers[q.id];
+            return state && state.locked && !state.isCorrect;
+        });
+        const container = document.getElementById('wrongListContainer');
+        if (!container) return;
+        if (wrongList.length === 0) {
+            container.innerHTML = '<div style="color: #5f7f9e;">✨ 暂无错题，急救闯关成绩优秀！</div>';
+            return;
+        }
+        let html = '';
+        wrongList.forEach(q => {
+            const state = userAnswers[q.id];
+            const userAns = state.selected || '未选';
+            html += `<div class="wrong-item">
+                        <div class="wrong-question">❌ 【${getModuleName(q.module)}】${q.text}</div>
+                        <div class="wrong-detail">你的答案：${userAns} ｜ 正确答案：${q.correct}</div>
+                        <div class="wrong-detail" style="margin-top:6px;">💡 解析：${q.explanation}</div>
+                    </div>`;
+        });
+        container.innerHTML = html;
+    }
+
+    function getModuleName(mod) {
+        if(mod === 'listening') return '听力';
+        if(mod === 'reading') return '阅读';
+        if(mod === 'writing') return '写作';
+        return '翻译';
+    }
+
+    // 智能复习建议（根据各模块正确率）
+    function renderAdvice() {
+        const modules = [
+            { name: '听力', key: 'listening', bank: listeningBank, tips: '精听高频信号词，重点训练转折词听音反应。' },
+            { name: '阅读', key: 'reading', bank: readingBank, tips: '每天熟读同义替换50组，细节题定位技巧。' },
+            { name: '写作', key: 'writing', bank: writingBank, tips: '背诵5大话题万能句，用简单句保证语法正确。' },
+            { name: '翻译', key: 'translation', bank: translationBank, tips: '优先强化翻译固定词组+传统文化词块，杜绝空题。' }
+        ];
+        let adviceArr = [];
+        for(let mod of modules) {
+            const questionsOfMod = allQuestions.filter(q => q.module === mod.key);
+            let answeredCount = 0, correctCount = 0;
+            questionsOfMod.forEach(q => {
+                const s = userAnswers[q.id];
+                if(s && s.locked) {
+                    answeredCount++;
+                    if(s.isCorrect) correctCount++;
+                }
+            });
+            const rate = answeredCount === 0 ? -1 : (correctCount/answeredCount)*100;
+            if(answeredCount > 0 && rate < 60) {
+                adviceArr.push(`🔴 ${mod.name}模块薄弱（正确率${Math.round(rate)}%）：${mod.tips}`);
+            } else if(answeredCount === 0) {
+                adviceArr.push(`⚪ ${mod.name}模块未作答：建议立即练习，${mod.tips}`);
+            } else if(rate >= 80) {
+                adviceArr.push(`🟢 ${mod.name}模块掌握良好，保持手感即可。`);
+            } else {
+                adviceArr.push(`🟡 ${mod.name}模块中等，${mod.tips}`);
+            }
+        }
+        // 额外针对性：翻译错题多特别提示
+        const translationWrong = allQuestions.filter(q => q.module === 'translation' && userAnswers[q.id]?.locked && !userAnswers[q.id]?.isCorrect).length;
+        if(translationWrong >= 3) {
+            adviceArr.unshift('🚨 翻译固定词组失分严重！立刻背诵传统文化/科技/环保10个必考搭配，确保不空题。');
+        } else if(translationWrong > 0) {
+            adviceArr.unshift('📝 翻译部分有错题，重点复习高频词组（文化遗产、可持续发展等），避免时态混乱。');
+        }
+        const totalAnswered = allQuestions.filter(q => userAnswers[q.id]?.locked).length;
+        if(totalAnswered === 0) {
+            adviceArr = ['⭐ 点击任意选项开始自测，每个题目均为近5年真题必考点，错题本自动收集薄弱点，高效提分！'];
+        }
+        document.getElementById('adviceText').innerHTML = adviceArr.map(a => `<p style="margin-bottom: 10px;">${a}</p>`).join('');
+    }
+
+    // 重置功能
+    function resetAll() {
+        userAnswers = initState();
+        renderAll();
+        // 滚动到顶部
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 粘性导航跳转
+    function setupNav() {
+        const btns = document.querySelectorAll('.nav-btn');
+        btns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const target = btn.getAttribute('data-module');
+                if(target === 'wrong-area') {
+                    document.querySelector('.review-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else {
+                    const section = document.getElementById(target);
+                    if(section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+        const resetBtn = document.getElementById('resetAllBtn');
+        if(resetBtn) resetBtn.addEventListener('click', resetAll);
+    }
+
+    // 初次渲染
+    renderAll();
+    setupNav();
+</script>
+</body>
+</html>
